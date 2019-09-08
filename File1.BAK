@@ -1,0 +1,25 @@
+% Author:
+% Date: 4/2/2018
+
+
+mug(X,Y,A):-
+            helper1(X,Y,[],A).
+helper1([],[],X,X).
+helper1([Z|S],[],A,Q):-helper1(S,[],[Z|A],Q).
+helper1([],[Z|S],A,Q):-helper1([],S,[Z|A],Q).
+helper1([(H-L)|T],T1,D,A):-
+                           (R=(H-_),bagof(R,member(R,T),Z);Z=[]),member(M,Z),delete(T,M,T2),
+                           meg1(Z,0,J),
+                           J2 is J+L,
+                           h((H-J2),T1,T3,J3),
+                           helper1(T2,T3,[(H-J3)|D],A).
+
+h((H-X),T,T1,K):-
+                  (`R=(H-_),bagof(R,member(R,T),Z);Z=[]),member(M,Z),delete(T,M,T1),
+                  meg1(Z,0,J),
+                  K is J+X.
+meg1([],X,X).
+meg1([(_-D)|G],X,A):-
+                    X1 is X+D,
+                    meg1(G,X1,A).
+                           
